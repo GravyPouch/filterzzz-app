@@ -1,31 +1,73 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, FlatList } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { Image } from "expo-image";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import * as FileSystem from "expo-file-system";
 
 export default function TabTwoScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
+  const [images, setImages] = useState(null);
+  const imgDir = FileSystem.cacheDirectory + "img/";
+
+  async function checkFiles() {
+    const files = await FileSystem.readDirectoryAsync(imgDir);
+    let newData = [];
+    files.forEach((file, index) => {
+      console.log(imgDir + file);
+      newData.push({
+        image: imgDir + file,
+        id: index,
+      });
+    });
+    setImages(newData);
+  }
+
+  useEffect(() => {
+    checkFiles();
+  }, []);
+
+  const Item = ({ image }) => (
+    <View className="aspect-square" style={styles.item}>
+      <Image
+        height={200}
+        width={200}
+        contentFit="contain"
+        source={{ uri: image }}
+        transition={1000}
+      />
     </View>
+  );
+
+  return (
+    <FlatList
+      data={images}
+      renderItem={({ item }) => <Item image={item.image} />}
+      keyExtractor={(item) => item.id}
+      horizontal={false}
+      numColumns={2}
+    />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  item: {
+    backgroundColor: "#f9c2ff",
+    padding: 0,
+    marginVertical: 8,
+    marginHorizontal: 8,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    fontSize: 32,
   },
 });
+
+{
+  /**<FlatList>
+  <View className="flex flex-row h-screen space-x-2 ">
+  <View className=" basis-1/3 h-1/4 p-10 rounded-xl bg-red-500" />
+  <View className=" basis-1/3 h-1/4 p-10 rounded-xl bg-red-500" />
+</View>
+</FlatList> */
+}

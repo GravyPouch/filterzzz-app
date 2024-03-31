@@ -30,3 +30,22 @@ export async function UploadImage(img) {
   console.log(res);
   return res;
 }
+
+/*
+import * as FileSystem from "expo-file-system";
+
+try {
+  const response = await FileSystem.uploadAsync(
+    `http://192.168.0.1:1234/binary-upload`,
+    fileUri,
+    {
+      fieldName: "file",
+      httpMethod: "PATCH",
+      uploadType: FileSystem.FileSystemUploadType.BINARY_CONTENT,
+    }
+  );
+  console.log(JSON.stringify(response, null, 4));
+} catch (error) {
+  console.log(error);
+}
+*/
