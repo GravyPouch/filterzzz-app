@@ -5,16 +5,11 @@ import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 
 export default function TabOneScreen() {
-  return (
-    <ScrollView style={styles.scrollView}>
-      <Button text={"PS2ify"} link={"/filter/ps2"} />
-    </ScrollView>
-  );
+  return <ScrollView style={styles.scrollView}></ScrollView>;
 }
 
 const styles = StyleSheet.create({
   scrollView: {
-    flex: 1,
     marginHorizontal: 20,
   },
   text: {
