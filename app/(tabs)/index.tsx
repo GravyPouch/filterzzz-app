@@ -12,8 +12,6 @@ import { getFilters } from "@/library/filters";
 
 export default function TabOneScreen() {
   const [data, setData] = useState(null);
-  const [selectedItems, setSelectedItems] = useState({});
-  const [loadingMore, setLoadingMore] = useState(false);
   const [isRefreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
@@ -40,7 +38,7 @@ export default function TabOneScreen() {
         link={"/filter/" + item.displayName}
         image={item.image}
         id={item.id}
-        images={item.images}
+        images={item.gallery}
       />
     );
   };
