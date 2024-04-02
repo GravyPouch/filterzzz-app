@@ -7,7 +7,7 @@ import GenButton from "@/components/GenerateButton";
 import ImageCarousel from "@/components/ImageCarousel";
 
 export default function Page() {
-  const { slug, id, image } = useLocalSearchParams();
+  const { slug, id, image, images } = useLocalSearchParams();
 
   const bgImage = { uri: image };
 
@@ -17,9 +17,9 @@ export default function Page() {
       style={styles.container}
     >
       <Text className=" text-white text-6xl font-extrabold">{slug}</Text>
-      <View>
-        <ImageCarousel />
-      </View>
+
+      <ImageCarousel images={images} />
+
       <GenButton filter={id} />
     </View>
   );

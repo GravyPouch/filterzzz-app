@@ -3,14 +3,24 @@ import { Platform, StyleSheet } from "react-native";
 
 import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
+import SupportLinks from "@/components/SupportLinks";
 
 export default function ModalScreen() {
-  return <View style={styles.container}></View>;
+  return (
+    <View style={styles.container}>
+      <SupportLinks text={"Website"} link={"turing.lol"} />
+      <SupportLinks text={"TikTok"} link={"tiktok.com"} />
+      <SupportLinks text={"Instagram"} link={"instagram.com"} />
+      <SupportLinks text={"Contact Us"} link={"turing.lol"} />
+      <SupportLinks text={"Terms and Conditions"} link={"turing.lol"} />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    gap: 10,
     alignItems: "center",
     justifyContent: "center",
   },

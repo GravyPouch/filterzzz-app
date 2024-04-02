@@ -11,15 +11,16 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Link } from "expo-router";
 
-export default function Button({ text, link, image, id }) {
+export default function Button({ text, link, image, id, images }) {
   const imageURI = {
     uri: image,
   };
+
   return (
     <Link
       href={{
         pathname: link,
-        params: { id: id, image: image },
+        params: { id: id, image: image, images: images },
       }}
       asChild
     >

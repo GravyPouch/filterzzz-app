@@ -27,8 +27,6 @@ export default function TabOneScreen() {
 
     const filters = await getFilters();
 
-    console.log(filters);
-
     if (filters) {
       setData(filters);
       setRefreshing(false);
@@ -42,6 +40,7 @@ export default function TabOneScreen() {
         link={"/filter/" + item.displayName}
         image={item.image}
         id={item.id}
+        images={item.images}
       />
     );
   };
