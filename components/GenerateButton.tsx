@@ -14,6 +14,7 @@ import { router } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import * as Haptics from "expo-haptics";
 import * as FileSystem from "expo-file-system";
+import { LinearGradient } from "expo-linear-gradient";
 
 const backroundImage = {
   uri: "https://i.kym-cdn.com/photos/images/original/002/778/491/0c3.png",
@@ -29,7 +30,7 @@ async function ensureDirExists() {
   }
 }
 
-export default function GenButton({ model }) {
+export default function GenButton({ filter }) {
   const [image, setImage] = useState(null);
 
   async function generate() {
@@ -39,7 +40,7 @@ export default function GenButton({ model }) {
       quality: 0.5,
     });
 
-    console.log(result);
+    //console.log(result);
 
     if (!result.canceled) {
       await ensureDirExists();
@@ -61,6 +62,7 @@ export default function GenButton({ model }) {
         pathname: "/filter/upload",
         params: {
           img: saveResult,
+          filter: filter,
         },
       });
     } else {
@@ -69,44 +71,23 @@ export default function GenButton({ model }) {
   }
 
   return (
-    <Pressable onPress={() => generate(model)}>
-      <View
-        style={styles.container}
-        className="  m-2 border-fuchsia-500 border-2"
-      >
-        <ImageBackground
-          style={styles.image}
-          source={backroundImage}
-          resizeMode="cover"
-          blurRadius={35}
+    <Pressable onPress={() => generate()}>
+      <View style={styles.container}>
+        <LinearGradient
+          colors={["#8a3cde", "#ea2bff"]}
+          className=" rounded-3xl p-5"
         >
-          <Text
-            className="text-center text-3xl font-bold text-white"
-            style={styles.blurContainer}
-          >
+          <Text className="text-center text-3xl font-bold text-white">
             Generate
           </Text>
-        </ImageBackground>
+        </LinearGradient>
       </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: "100%",
-    overflow: "hidden",
-    borderRadius: 17,
-    flexDirection: "row",
-    alignItems: "center",
-  },
   container: {
     borderRadius: 20,
-  },
-  blurContainer: {
-    flex: 1,
-    padding: 20,
-    margin: 8,
-    overflow: "hidden",
   },
 });

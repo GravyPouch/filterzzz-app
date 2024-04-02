@@ -11,21 +11,26 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Link } from "expo-router";
 
-const image = {
-  uri: "https://i.kym-cdn.com/photos/images/original/002/778/491/0c3.png",
-};
-
-export default function Button({ text, link }) {
+export default function Button({ text, link, image, id }) {
+  const imageURI = {
+    uri: image,
+  };
   return (
-    <Link href={link} asChild>
+    <Link
+      href={{
+        pathname: link,
+        params: { id: id, image: image },
+      }}
+      asChild
+    >
       <Pressable>
         <View
           style={styles.container}
-          className="  m-2 border-fuchsia-500 border-2"
+          className="  m-2 border-purple-500 border-2"
         >
           <ImageBackground
             style={styles.image}
-            source={image}
+            source={imageURI}
             resizeMode="cover"
             blurRadius={35}
           >
@@ -35,13 +40,15 @@ export default function Button({ text, link }) {
             >
               {text}
             </Text>
-            <View className=" p-3">
-              <MaterialCommunityIcons
-                name="cards-heart-outline"
-                size={40}
-                color="white"
-              />
-            </View>
+            <Pressable>
+              <View className=" p-5">
+                <MaterialCommunityIcons
+                  name="cards-heart-outline"
+                  size={40}
+                  color="white"
+                />
+              </View>
+            </Pressable>
           </ImageBackground>
         </View>
       </Pressable>

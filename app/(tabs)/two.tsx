@@ -6,7 +6,7 @@ import * as FileSystem from "expo-file-system";
 
 export default function TabTwoScreen() {
   const [images, setImages] = useState(null);
-  const imgDir = FileSystem.cacheDirectory + "img/";
+  const imgDir = FileSystem.documentDirectory + "img/";
 
   async function checkFiles() {
     const files = await FileSystem.readDirectoryAsync(imgDir);

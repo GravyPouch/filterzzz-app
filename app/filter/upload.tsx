@@ -31,7 +31,7 @@ const permImgDir = FileSystem.documentDirectory + "img/";
 
 export default function Modal() {
   const confettiRef = useRef<LottieView>(null);
-  const { img } = useLocalSearchParams();
+  const { img, filter } = useLocalSearchParams();
 
   const randomValue = Math.floor(Math.random() * 30) + 5;
   const [image, setImage] = useState(null);
@@ -47,6 +47,7 @@ export default function Modal() {
     if (!dirInfo.exists) {
       console.log("directory doesn't exist, creating…");
       await FileSystem.makeDirectoryAsync(permImgDir, { intermediates: true });
+      return true;
     } else {
       console.log("Dir exists");
       return true;
@@ -54,23 +55,38 @@ export default function Modal() {
   }
 
   async function startUpload() {
-    const newIMG = await UploadImage(img);
+    const newIMG = await UploadImage(img, filter);
     if (newIMG.img) {
       const img = await handleDownload(newIMG.img);
       setImage(img);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } else {
+      Alert.alert("Try Again", "Make sure the image has a face", [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => console.log("Cancel Pressed"),
+        },
+      ]);
     }
   }
 
   const handleDownload = async (url) => {
-    await ensureDirExists();
-    const UUID = await Crypto.randomUUID();
-    let fileUri = imgDir + `${UUID}.png`;
-    try {
-      const res = await FileSystem.downloadAsync(url, fileUri);
-      return res.uri;
-    } catch (err) {
-      console.log("FS Err: ", err);
+    const dir = await ensureDirExists();
+    //This dir is flaky I would piroitize saving to cache in case this doesnt work for some users
+    if (dir) {
+      const UUID = await Crypto.randomUUID();
+      let fileUri = permImgDir + `${UUID}.png`;
+      try {
+        const res = await FileSystem.downloadAsync(url, fileUri);
+        return res.uri;
+      } catch (err) {
+        console.log("FS Err: ", err);
+      }
     }
   };
 
