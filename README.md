@@ -1,3 +1,5 @@
+[Link to Server](https://github.com/gravypouch/filterzzz-server)
+
 ### Filterzzz
 
 * FrontEnd to turn your photos into silly AI creations.
