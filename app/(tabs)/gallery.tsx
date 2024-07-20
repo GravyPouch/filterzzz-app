@@ -1,6 +1,14 @@
-import { StyleSheet, ScrollView, Text, View, FlatList } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  FlatList,
+  Pressable,
+} from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import { Image } from "expo-image";
+import { Link } from "expo-router";
 
 import * as FileSystem from "expo-file-system";
 
@@ -26,15 +34,25 @@ export default function Screen() {
   }, []);
 
   const Item = ({ image }) => (
-    <View className="aspect-square" style={styles.item}>
-      <Image
-        height={175}
-        width={175}
-        contentFit="contain"
-        source={{ uri: image }}
-        transition={1000}
-      />
-    </View>
+    <Link
+      href={{
+        pathname: "/(modals)/gallery",
+        params: { image: image },
+      }}
+      asChild
+    >
+      <Pressable>
+        <View className="aspect-square" style={styles.item}>
+          <Image
+            height={175}
+            width={175}
+            contentFit="contain"
+            source={{ uri: image }}
+            transition={1000}
+          />
+        </View>
+      </Pressable>
+    </Link>
   );
 
   return (

@@ -59,8 +59,16 @@ function RootLayoutNav() {
           options={{ headerShown: false, title: "zzz" }}
         />
         <Stack.Screen
+          name="(modals)"
+          options={{ headerShown: false, title: "zzz" }}
+        />
+        <Stack.Screen
           name="modal"
           options={{ presentation: "modal", title: "zzz" }}
+        />
+        <Stack.Screen
+          name="premium"
+          options={{ presentation: "modal", title: "💎" }}
         />
       </Stack>
     </ThemeProvider>

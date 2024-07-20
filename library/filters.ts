@@ -1,4 +1,4 @@
-const url = "http://100.71.54.70:3000/filters/all";
+const url = "http://localhost:3000/filters/all";
 
 export async function getFilters() {
   const options = { method: "GET" };

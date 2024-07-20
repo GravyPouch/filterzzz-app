@@ -33,7 +33,7 @@ export default function Modal() {
   const confettiRef = useRef<LottieView>(null);
   const { img, filter } = useLocalSearchParams();
 
-  const randomValue = Math.floor(Math.random() * 30) + 5;
+  const randomValue = Math.floor(Math.random() * 40) + 5;
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [queue, setQueue] = useState(randomValue);
@@ -58,8 +58,9 @@ export default function Modal() {
     const newIMG = await UploadImage(img, filter);
     if (newIMG.img) {
       const img = await handleDownload(newIMG.img);
-      setImage(img);
+      setLoading(false);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      setImage(img);
     } else {
       Alert.alert("Try Again", "Make sure the image has a face", [
         {
@@ -97,7 +98,7 @@ export default function Modal() {
 
   useEffect(() => {
     if (queue <= 0) {
-      setLoading(false);
+      //setLoading(false);
       return;
     } else {
       const interval = setInterval(
@@ -113,39 +114,41 @@ export default function Modal() {
   }, [queue]);
 
   return (
-    <View className=" p-4 py-10">
+    <>
       {loading ? (
-        <View className=" flex flex-col h-full justify-between">
-          <Image
-            height={400}
-            width={null}
-            contentFit="contain"
-            source={{ uri: image }}
-            blurRadius={blurProgress}
-            transition={1000}
-          />
-          <View className=" space-y-4">
-            <Text className=" text-center text-white">
-              You are {queue}/{queueTotal} in line
-            </Text>
-            <Progress.Bar
-              progress={progress}
+        <View className=" p-4 py-10">
+          <View className=" flex flex-col h-full justify-between">
+            <Image
+              height={400}
               width={null}
-              color="white"
-              height={15}
-              borderRadius={10}
+              contentFit="contain"
+              source={{ uri: image }}
+              blurRadius={blurProgress}
+              transition={1000}
             />
-
-            <TouchableOpacity
-              onPress={() => {
-                router.navigate("Premium");
-              }}
-              className="w-full bg-black p-5 rounded-full "
-            >
-              <Text className="text-white text-center font-bold">
-                Skip The Wait
+            <View className=" space-y-4">
+              <Text className=" text-center text-white">
+                You are {queue}/{queueTotal} in line
               </Text>
-            </TouchableOpacity>
+              <Progress.Bar
+                progress={progress}
+                width={null}
+                color="white"
+                height={15}
+                borderRadius={10}
+              />
+
+              <TouchableOpacity
+                onPress={() => {
+                  router.navigate("/premium");
+                }}
+                className="w-full bg-black p-5 rounded-full "
+              >
+                <Text className="text-white text-center font-bold">
+                  Skip The Wait
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       ) : (
@@ -158,54 +161,56 @@ export default function Modal() {
             style={styles.lottie}
             resizeMode="cover"
           />
-          <View className="flex flex-col space-y-6">
-            <View>
-              {image && (
-                <Image
-                  height={400}
-                  width={null}
-                  contentFit="contain"
-                  source={{ uri: image }}
-                  transition={1000}
-                />
-              )}
-              <Pressable
-                onPress={() => {
-                  Alert.alert("Save to Photos?", "", [
-                    {
-                      text: "Cancel",
-                      onPress: () => console.log("Cancel Pressed"),
-                      style: "cancel",
-                    },
-                    {
-                      text: "OK",
-                      onPress: () => {
-                        MediaLibrary.saveToLibraryAsync(image);
-                        Haptics.notificationAsync(
-                          Haptics.NotificationFeedbackType.Success
-                        );
+          <View className=" p-4 py-10">
+            <View className="flex flex-col space-y-6">
+              <View>
+                {image && (
+                  <Image
+                    height={400}
+                    width={null}
+                    contentFit="contain"
+                    source={{ uri: image }}
+                    transition={1000}
+                  />
+                )}
+                <Pressable
+                  onPress={() => {
+                    Alert.alert("Save to Photos?", "", [
+                      {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel",
                       },
-                    },
-                  ]);
-                }}
-              >
-                <View className=" mt-5 p-4 bg-gray-600 rounded-2xl">
-                  <Text className=" text-center font-bold text-white text-2xl">
-                    Save to Photos
-                  </Text>
-                </View>
-              </Pressable>
-            </View>
-            <View className="flex flex-row justify-around">
-              <ShareButton icon={"share"} url={image} />
-              <ShareButton icon={"message-circle"} url={image} />
-              <ShareButton icon={"instagram"} url={image} />
-              <ShareButton icon={"twitter"} url={image} />
+                      {
+                        text: "OK",
+                        onPress: () => {
+                          MediaLibrary.saveToLibraryAsync(image);
+                          Haptics.notificationAsync(
+                            Haptics.NotificationFeedbackType.Success
+                          );
+                        },
+                      },
+                    ]);
+                  }}
+                >
+                  <View className=" mt-5 p-4 bg-gray-600 rounded-2xl">
+                    <Text className=" text-center font-bold text-white text-2xl">
+                      Save to Photos
+                    </Text>
+                  </View>
+                </Pressable>
+              </View>
+              <View className="flex flex-row justify-around">
+                <ShareButton icon={"share"} url={image} />
+                <ShareButton icon={"message-circle"} url={image} />
+                <ShareButton icon={"instagram"} url={image} />
+                <ShareButton icon={"twitter"} url={image} />
+              </View>
             </View>
           </View>
         </>
       )}
-    </View>
+    </>
   );
 }
 

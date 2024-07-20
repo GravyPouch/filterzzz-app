@@ -49,7 +49,11 @@ export default function TabOneScreen() {
         data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
-        ListEmptyComponent={<ActivityIndicator size="large" />}
+        ListEmptyComponent={
+          <View className=" p-10">
+            <ActivityIndicator size="large" />
+          </View>
+        }
       />
     </View>
   );
